@@ -1,0 +1,13 @@
+%!TeX root=./tests.tex
+
+\newcommand{\test}[6]{
+	\begin{longtabu}{|>{\bfseries}X[-1,l,m]|X[l,m]|}
+		\hline
+		ID & #1\\ \hline
+		Description & #2\\ \hline
+		Input & #3\\ \hline
+		Expected Output & #4\\ \hline
+		Version Tested & #5\\ \hline
+		Result & #6\\ \hline
+	\end{longtabu}
+}

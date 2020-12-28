@@ -1,0 +1,1 @@
+﻿INSERT INTO Objects(Object_Type, Is_Stable) VALUES (10, @IsStable);

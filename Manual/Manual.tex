@@ -1,0 +1,108 @@
+% arara: pdflatex: {action: nonstopmode}
+
+\documentclass[a4paper, 11pt]{scrreprt}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage{longtable,tabu}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{pdfpages}
+\usepackage{url}
+%\usepackage{multicolumn}
+
+\hypersetup{
+    bookmarks=false,    % show bookmarks bar?
+    pdftitle={Manual},    % title
+    pdfauthor={Pascal Grosch},                     % author
+    pdfsubject={Manual: Recording of Scenarios for Autonomous Vehicles},                        % subject of the document
+    pdfkeywords={testing, autonomous vehicle, bachelor thesis, design, recording}, % list of keywords
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,       % color of internal links
+    citecolor=black,       % color of links to bibliography
+    filecolor=black,        % color of file links
+    urlcolor=purple,        % color of external links
+    linktoc=page            % only page is linked
+}%
+
+\title{%
+\flushright
+\rule{16cm}{5pt}\vskip1cm
+\Huge{MANUAL}\\
+\vspace{2cm}
+for\\
+\vspace{2cm}
+Recording System for Scenarios for Autonomous Vehicles\\
+\vfill
+\rule{16cm}{5pt}
+}
+\date{}
+
+\usepackage{hyperref}
+
+\begin{document}
+	\maketitle
+	
+	\chapter{Installation}
+	\section{Build from Source}
+	\subsection{Dependencies}
+	\begin{itemize}
+		\item 64bit Microsoft Windows installation
+		\item Visual Studio 2017 
+		\item 64bit Graphviz installation(obtainable as a development build from \url{https://ci.appveyor.com/project/ellson/graphviz-pl238}) with binaries added to the PATH
+		\item PTV Vissim 9.00-12 installation in "C:/Program Files/PTV Vision/PTV Vissim 9"
+	\end{itemize}
+	\subsection{Building}
+	\begin{enumerate}
+		\item Create an environment variable called "GraphvizPath" with the base directory of the Graphviz installation as the value (i.e. "C:/Program Files/Graphviz").
+		\item Open the solution in Visual Studio 2017.
+		\item Build the solution.
+	\end{enumerate}
+	
+	\section{Use Binaries}
+	\subsection{Dependencies}
+	\begin{itemize}
+		\item 64bit Microsoft Windows installation
+		\item 64bit Graphviz installation(obtainable as a development build from \url{https://ci.appveyor.com/project/ellson/graphviz-pl238}) with binaries added to the PATH
+		\item PTV Vissim 9.00-12 installation in "C:/Program Files/PTV Vision/PTV Vissim 9"
+	\end{itemize}
+	\subsection{Preparing the Environment}
+	\begin{enumerate}
+		\item Run a command prompt as administrator
+		\item Type "dot -c" to activate the dot-layout in Graphviz.
+		\item Start Vissim
+		\item Use Help$\rightarrow$Register COM Server
+	\end{enumerate}
+	Those steps only have to be done once.
+	
+	\chapter{Usage}
+	
+	\section{Use the included executable file}
+	The system is delivered with a basic executable file that uses PTV Vissim to simulate the traffic. The executable will open a command prompt and prompt the user for the following program parameters:
+	\begin{enumerate}
+		\item The name of the Vissim scenario. The scenario needs to be in the subdirectory "scenarios".
+		\item The name of the database to be used. If there is no database with the given name in the subdirectory "databases" a new on e will be created.
+		\item Length of the simulation in hours .This can be a floating point value.
+		\item Name of the PDF file which will contain the  visualized graph of situations. The file will be overwritten if it already exists.
+	\end{enumerate}
+	After the prompt the software will run the simulation and record the situations. At the end the program will output how long the simulation took.
+	
+	\section{Use the Included Libraries to Get Data from a Vissim Simulation}
+	The project is built as a set of dynamic libraries.
+	A library wrapping the most import functions of the Vissim COM-interface is already delivered.
+	To use this library create a scenario in Vissim and use the public interface to the framework to add vehicles.
+	To start a simulation on your scenario while analyzing the data use \verb+Simulation::runAndRecord+.
+	
+	\section{Display Collected Data}
+	To display the collected data in a graph open the database which contains the data via \verb+SQLiteManager(database)+.
+	Next retrieve all data that was collected in the database via \verb+SQLiteManager::retrieveSituationGraph+ and call \verb+SituationGraph::saveAsPDF+ to export the graph to PDF.
+	
+	If you want to export only a single sequence of the graph with a given root situation use \verb+SQLiteManager::retrieveSubSituationGraph+ instead.
+	
+	\section{Use a Different Data Source}
+	The dynamic library \emph{Recording\_Framework} allows different sources of data input.
+	The interface for the data input is defined in \verb+DataProcessor::processData+.
+\end{document}

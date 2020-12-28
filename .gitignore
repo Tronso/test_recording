@@ -1,0 +1,74 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Binaries Folder
+/source/x64
+/source/RecordingExecutable/x64
+/source/Test_Framework/x64
+/source/Test_Recording/x64
+/source/RecordingExecutable/Debug
+/source/Test_Framework/Debug
+/source/Test_Recording/Debug
+/source/UnitTest1/Debug
+
+
+#Visual Studio Files
+/source/.vs
+*.user
+
+#LaTeX
+*.toc
+*.aux
+*.bak
+*.gz
+/Specifications/*.log
+/Testing/*.log
+/Ausarbeitung/*.log
+/Design/*.log
+/Manual/*.log
+/Ausarbeitung/Recording_Test_Cases.pdf
+/Organisation/Projektplan.pdf
+/Specifications/requirements.pdf
+/Design/DesignDocument.pdf
+/Manual/Manual.pdf
+*.bbl
+*.bcf
+*.blg
+*.xml
+
+
+#Misc
+/source/UnitTest1/x64/Debug/Testing.tlog/*.tlog
+/source/UnitTest1/x64/Debug
+/source/.vscode
+*.results

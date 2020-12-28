@@ -1,0 +1,293 @@
+\documentclass[a4paper, 11pt]{scrreprt}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage{longtable,tabu}
+\usepackage[bookmarks=true]{hyperref}
+
+\hypersetup{
+    bookmarks=false,    % show bookmarks bar?
+    pdftitle={Test Document},    % title
+    pdfauthor={Pascal Grosch},                     % author
+    pdfsubject={Test Document: Recording of Tests for Autonomous Vehicles},                        % subject of the document
+    pdfkeywords={testing, autonomous vehicle, bachelor thesis, design, recording}, % list of keywords
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,       % color of internal links
+    citecolor=black,       % color of links to bibliography
+    filecolor=black,        % color of file links
+    urlcolor=purple,        % color of external links
+    linktoc=page            % only page is linked
+}%
+
+\title{%
+\flushright
+\rule{16cm}{5pt}\vskip1cm
+\Huge{TEST DOCUMENTATION}\\
+\vspace{2cm}
+for\\
+\vspace{2cm}
+Recording System for Test Cases for Autonomous Vehicles\\
+\vfill
+\rule{16cm}{5pt}
+}
+\date{}
+
+\usepackage{hyperref}
+
+\tabulinesep=1.5mm
+
+\input{macros}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Component Tests}
+
+\section{Simulation}
+
+	\test{CT\_S\_10}
+	{Empty Road}
+	{Vissim scenario without any vehicles}
+	{For every simulation step the data should be empty}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_S\_20}
+	{Only VUT}
+	{Vissim scenario containing only the VUT vehicle}
+	{For every simulation step the data should contain only the VUT data}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_S\_30}
+	{Vehicles only in Range of VUT}
+	{Vissim scenario with vehicles only in the 500m range}
+	{For every simulation step the data should contain the data for every vehicle}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_S\_40}
+	{Vehicles only out of Range of VUT}
+	{Vissim scenario with VUT and vehicles out of the 500m range}
+	{For every simulation step the data should only contain the VUT data}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_S\_50}
+	{Vehicles both in and out of Range}
+	{Vissim scenario with vehicles in and out of the 500m range}
+	{For every simulation step the data should contain the data of all vehicles in the range}
+	{I3v5}
+	{PASSED}
+
+\section{Predicate Constructor}
+	
+	\test{CT\_PC\_10}
+	{Only VUT without a response}
+	{Data containing only the VUT without a response}
+	{Predicates for the VUT without a response}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_PC\_20}
+	{Only VUT with only an acceleration response}
+	{Data containing only the VUT with positive acceleration}
+	{Predicates for the VUT with the acceleration response}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_PC\_30}
+	{Hystereses Test RelX initial value}
+	{Data containing a vehicle for each RelX predicate without former data}
+	{Predicates for each vehicle}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_PC\_40}
+	{Hystereses Test RelV initial value}
+	{Data containing a vehicle for each RelV predicate without former data}
+	{Predicates for each vehicle}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_PC\_50}
+	{Hystereses Test RelX over boundaries without changing the predicate}
+	{Data containing a vehicle for each RelX predicate out the boundaries without changing the predicate with former data}
+	{Same predicates for each vehicle as the former data}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_PC\_60}
+	{Hystereses Test RelV over boundaries without changing the predicate}
+	{Data containing a vehicle for each RelV predicate out the boundaries without changing the predicate with former data}
+	{Same predicates for each vehicle as the former data}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_PC\_70}
+	{Hystereses Test RelX over boundaries with changing the predicate}
+	{Data containing a vehicle for each RelX predicate out of the boundaries which should change the predicate with former data}
+	{Different predicates for each vehicle as the former data}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_PC\_80}
+	{Hystereses Test RelV over boundaries with changing the predicate}
+	{Data containing a vehicle for each RelV predicate out of the boundaries which should change the predicate with former data}
+	{Different predicates for each vehicle as the former data}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_PC\_90}
+	{Only VUT with only a lane change response}
+	{Data containing only the VUT with a lane change to the left}
+	{Predicates for the VUT with the lane change to the left}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_PC\_100}
+	{Only VUT with both acceleration and lane change responses}
+	{Data containing only the VUT with acceleration and a lane change to the left}
+	{Predicates for the VUT with the acceleration and lane change to the left}
+	{I3v5}
+	{PASSED}
+
+\section{Transition Generator}
+	
+	\test{CT\_TG\_10}
+	{Equal Situations}
+	{Two equal situations}
+	{no transition}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_TG\_20}
+	{Different Situations}
+	{Two different situations}
+	{Transition with the correct predecessor and successor situation}
+	{I3v5}
+	{PASSED}
+
+\section{Data Manager}
+
+	The Data Manager will be tested with an administration tool for the SQLite Database.
+	
+	\test{CT\_DM\_10}
+	{Store new transition with new Situations}
+	{A transition that does not exist in the database containing Situations that do not exists in the database}
+	{Database contains the situations and transition}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_DM\_20}
+	{Store new transition with existing Situations}
+	{A transition that does not exist in the database containing situations that do exist in the database}
+	{Database contains the transition and no additional situation}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_DM\_30}
+	{Store existing transition}
+	{A transition that does exist in the database}
+	{Database contains update count and probability in the transitions table}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_DM\_40}
+	{Retrieve everything}
+	{Retrieving and displaying the whole situation graph stored in a preexisting database.}
+	{The displayed Graph fits the existing data}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_DM\_50}
+	{Retrieve existing subgraph}
+	{Retrieving and displaying a subgraph with a given root situation stored in a preexisting database.}
+	{The displayed Graph fits the existing data}
+	{I3v5}
+	{PASSED}
+	
+	\test{CT\_DM\_60}
+	{Retrieve non existing subgraph}
+	{Trying to retrieve a subgraph with a root situation that is not stored in the database.}
+	{No graph is returned.}
+	{I3v5}
+	{PASSED}
+	
+\chapter{Integration Tests}
+
+\section{Data Processor}
+
+	\test{IT\_DP\_10}
+	{Initial Situation}
+	{Vehicle data for a new situation and no current situation is stored}
+	{The new situation is stored as current situation and no transition is stored in the data manager}
+	{I3v5}
+	{PASSED}
+	
+	\test{IT\_DP\_20}
+	{Unchanged Situation}
+	{Vehicle data for a situation equal to the current situation}
+	{No changes should occur}
+	{I3v5}
+	{PASSED}
+	
+	\test{IT\_DP\_30}
+	{New Situation}
+	{Vehicle data for a new situation that differs from he current situation}
+	{The new situation is stored as current situation and the transition between the old and new situation is stored}
+	{I3v5}
+	{PASSED}
+
+\chapter{System Tests}
+	
+	\test{ST\_10}
+	{Recording with an empty database}
+	{Vissim scenario containing deterministic preplanned situations and transitions and an empty database}
+	{The preplanned situations and transitions are stored in the database}
+	{I3v5}
+	{PASSED}
+	
+	\test{ST\_20}
+	{Recording with an existing database}
+	{Vissim scenario containing deterministic preplanned situations and transitions which are already contained in the database}
+	{The preplanned situations and transitions are stored in the database with the correct count and no duplicates}
+	{I3v5}
+	{PASSED}
+	
+\chapter{Traceability}
+	\begin{longtabu}{|X[-1,l,m]|X[l,m]|}
+	\hline
+	\rowfont[l]{\bfseries} Test & System Functions\endhead \hline
+		CT\_S\_10 & SF10\\ \hline
+		CT\_S\_20 & SF10\\ \hline
+		CT\_S\_30 & SF10\\ \hline
+		CT\_S\_40 & SF10\\ \hline
+		CT\_S\_50 & SF10\\ \hline
+		CT\_PC\_10 & SF30\\ \hline
+		CT\_PC\_20 & SF30\\ \hline
+		CT\_PC\_30 & SF30\\ \hline
+		CT\_PC\_40 & SF30\\ \hline
+		CT\_PC\_50 & SF30\\ \hline
+		CT\_PC\_60 & SF30\\ \hline
+		CT\_PC\_70 & SF30\\ \hline
+		CT\_PC\_80 & SF30\\ \hline
+		CT\_PC\_90 & SF30\\ \hline
+		CT\_PC\_100 & SF30\\ \hline
+		CT\_TG\_10 & SF40\\ \hline
+		CT\_TG\_20 & SF40\\ \hline
+		CT\_DM\_10 & SF50\\ \hline
+		CT\_DM\_20 & SF50\\ \hline
+		CT\_DM\_30 & SF50\\ \hline
+		CT\_DM\_40 & SF60, SF70\\ \hline
+		CT\_DM\_50 & SF60, SF70\\ \hline
+		CT\_DM\_60 & SF60, SF70\\ \hline
+		ST\_10 & SF10, SF20, SF30, SF40, SF50\\ \hline
+		ST\_20 & SF10, SF20, SF30, SF40, SF50\\ \hline
+	\end{longtabu}
+
+\end{document}

@@ -1,0 +1,87 @@
+%!TeX root=./DesignDocument.tex
+
+
+%\scenarioItem{ID}{RelX}{RelV}{Lane}{Acc}{LnChg}
+
+\begin{scenario}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	
+	\step{Slower vehicle in front appears}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102070}{103040}{1}{105050}{106050}
+	
+	\step{VUT gets closer to vehicle 1}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102060}{103040}{1}{105050} {106050}
+	
+	\step{VUT breaks}
+	\scenarioItem{0}{102050}{103050}{1}{105040}{106050}
+	\scenarioItem{1}{102060}{103040}{1}{105050}{106050}
+	
+	\step{VUT follows vehicle 0}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102060}{103050}{1}{105050} {106050}
+\end{scenario}
+
+\begin{scenario}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	
+	\step{Faster vehicle appears behind the VUT on the left lane}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102030}{103060}{2}{105050}{106050}
+	
+	\step{Faster vehicle approaches VUT}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102040}{103060}{2}{105050}{106050}
+	
+	\step{Faster vehicle overtakes VUT}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102050}{103060}{2}{105050}{106050}
+	
+	\step{Faster vehicle moves away}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102060}{103060}{2}{105050}{106050}
+	
+	\step{Faster vehicle moves away}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102070}{103050}{2}{105050}{106050}
+	
+	\step{Faster vehicle leaves the visible range}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+\end{scenario}
+
+\begin{scenario}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	
+	\step{Slower vehicle in front appears}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102070}{103040}{1}{105050}{106050}
+	
+	\step{VUT gets closer to vehicle10}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102060}{103040}{1}{105050} {106050}
+	
+	\step{VUT changes lane to the left}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106060}
+	\scenarioItem{1}{102060}{103040}{1}{105050}{106050}
+	
+	\step{VUT completed lane change}
+	\scenarioItem{0}{102050}{103050}{2}{105050}{106050}
+	\scenarioItem{1}{102060}{103040}{1}{105050}{106050}
+	
+	\step{VUT is on the same height}
+	\scenarioItem{0}{102050}{103050}{2}{105050}{106050}
+	\scenarioItem{1}{102060}{103050}{1}{105050}{106050}
+	
+	\step{VUT is close in front}
+	\scenarioItem{0}{102050}{103050}{2}{105050}{106050}
+	\scenarioItem{1}{102060}{103060}{1}{105050}{106050}
+	
+	\step{VUT changes lane to the right}
+	\scenarioItem{0}{102050}{103050}{2}{105050}{106040}
+	\scenarioItem{1}{102060}{103060}{1}{105050}{106050}
+	
+	\step{VUT completed lane change}
+	\scenarioItem{0}{102050}{103050}{1}{105050}{106050}
+	\scenarioItem{1}{102060}{103060}{1}{105050}{106050}
+\end{scenario}

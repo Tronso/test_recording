@@ -1,0 +1,36 @@
+%!TeX root=./DesignDocument.tex
+
+\newcounter{scenarioCounter}[section]
+
+\newcounter{stepCounter}[scenarioCounter]
+
+\newenvironment{scenario}{
+	\newcommand{\step}[1]{
+		\multicolumn{6}{|l|}{\textbf{Situation \thestepCounter:} ##1}\\ \hline
+		\stepcounter{stepCounter}
+	}
+	\newcommand{\scenarioItem}[6]{
+		##1 & ##2 & ##3 & ##4 & ##5 & ##6\\ \hline
+	}
+	\begin{longtabu}{|X[-1,m, l]||X[-1,r,m]|X[-1,r,m]|X[-1,r,m]|X[-1,r,m]|X[-1,l,r,m]|}
+	\hline
+	\rowfont[c]{\bfseries} VehID  & RelX & RelV & Lane & Acc & LnChg\\ \hline
+	\step{Initial Situation}
+}{
+	\end{longtabu}
+	\stepcounter{scenarioCounter}
+}
+
+\makeatletter
+\def\@cline#1-#2\@nil{%
+  \omit
+  \@multicnt#1%
+  \advance\@multispan\m@ne
+  \ifnum\@multicnt=\@ne\@firstofone{&\omit}\fi
+  \@multicnt#2%
+  \advance\@multicnt-#1%
+  \advance\@multispan\@ne
+  \leaders\hrule\@height\arrayrulewidth\hfill
+  \cr
+  \noalign{\nobreak\vskip-\arrayrulewidth}}
+\makeatother

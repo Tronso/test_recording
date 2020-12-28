@@ -1,0 +1,271 @@
+% arara: pdflatex: {action: nonstopmode}
+
+\documentclass{scrreprt}
+
+\usepackage{listings}
+\usepackage{underscore}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage{tabu}
+\usepackage{multirow}
+
+\hypersetup{
+    bookmarks=false,    % show bookmarks bar?
+    pdftitle={Requirement Specification},    % title
+    pdfauthor={Pascal Grosch},                     % author
+    pdfsubject={Requirements: Recording of Scenarios for Autonomous Vehicles},                        % subject of the document
+    pdfkeywords={testing, autonomous vehicle, bachelor thesis, requirements, recording}, % list of keywords
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,       % color of internal links
+    citecolor=black,       % color of links to bibliography
+    filecolor=black,        % color of file links
+    urlcolor=purple,        % color of external links
+    linktoc=page            % only page is linked
+}%
+
+\title{%
+\flushright
+\rule{16cm}{5pt}\vskip1cm
+\Huge{SOFTWARE REQUIREMENTS\\ SPECIFICATION}\\
+\vspace{2cm}
+for\\
+\vspace{2cm}
+Recording System for Scenarios for Autonomous Vehicles\\
+\vfill
+\rule{16cm}{5pt}
+}
+\date{}
+
+\usepackage{hyperref}
+
+\tabulinesep=1.5mm
+
+\newcommand{\goal}[4]{
+	\label{#1}
+	\begin{tabu}{|X[-1,m]|X[l,m]|}
+		\hline
+		\textbf{ID} & #1\\ \hline
+		\textbf{Name} & #2\\ \hline
+		\textbf{Description} & #3\\ \hline
+		\textbf{Success Criterion} & #4\\ \hline
+	\end{tabu}~\\
+	}
+	
+\newcommand{\usecase}[9]{
+	\label{#1}
+	\begin{tabu}{|X[-1,m]|X[l,m]|}
+		\hline
+		\textbf{ID} & #1\\ \hline
+		\textbf{Name} & #2\\ \hline
+		\textbf{Precondition} & #3\\ \hline
+		\textbf{Description} & #4\\ \hline
+		\textbf{Steps} & #5\\ \hline
+		\textbf{Postcondition} & #6\\ \hline
+		\textbf{Exceptions} & #7\\ \hline
+		\textbf{Quality Requirements} & #8\\ \hline
+		\textbf{Links} & #9\\ \hline
+	\end{tabu}
+	}
+
+\newcommand{\systemfunction}[9]{
+	\label{#1}
+	\begin{tabu}{|X[-1,m]|X[l,m]|}
+		\hline
+		\textbf{ID} & #1\\ \hline
+		\textbf{Name} & #2\\ \hline
+		\textbf{Input} & #3\\ \hline
+		\textbf{Precondition} & #4\\ \hline
+		\textbf{Description} & #5\\ \hline
+		\textbf{Postcondition} & #6\\ \hline
+		\textbf{Exceptions} & #7\\ \hline
+		\textbf{Quality Requirements} & #8\\ \hline
+		\textbf{Links} & #9\\ \hline
+	\end{tabu}~\\ 
+	}
+	
+\newcommand{\nfr}[3]{
+	\label{#1}
+	\begin{tabu}{|X[-1,m]|X[l,m]|}
+		\hline
+		\textbf{ID} & #1\\ \hline
+		\textbf{Name} & #2\\ \hline
+		\textbf{Description} & #3\\ \hline
+	\end{tabu}~\\ 
+	}
+	
+\newcommand{\ir}[4]{
+	\label{#1}
+	\begin{tabu}{|X[-1,m]|X[l,m]|}
+		\hline
+		\textbf{ID} & #1\\ \hline
+		\textbf{Name} & #2\\ \hline
+		\textbf{Description} & #3\\ \hline
+		\textbf{Priority} & #4\\ \hline
+	\end{tabu}~\\ 
+	}
+	
+\newcommand{\myref}[1]{
+	\hyperref[#1]{#1}
+}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{Goals}
+	
+	\goal{G10}
+		{Record Traffic Situations}
+		{The system creates an entry in the database that contains information about a sequence of traffic situations in which the VUT is unstable.}
+		{The data is entered in the database and can be used to recreate the situations.}
+	\\
+	\goal{G20}
+		{Display Recorded Data}
+		{The system retrieves the stored data and displays it in a graphical format.}
+		{The contents of the data storage are displayed correctly and readable by humans}
+
+\chapter{Use Cases}
+
+	\usecase{UC10}
+		{Recording of Traffic Situations}
+		{Exactly one VUT exists and is in a stable state.}
+		{The simulation is started and the data is delivered to the recording framework where it is processed and stored.
+		After the simulation run has ended the database contains the information about all unstable situations and transitions between them.}
+		{\begin{enumerate}
+			\item Execute the simulation
+			\item Receive data for each step
+			\item Translate the Raw data to predicates
+			\item Detect situation changes
+			\item Store data
+		\end{enumerate}}
+		{Every change of situations is stored in the database.}
+		{-}
+		{The recording should not slow down the simulation below a speed of 1 simulated second per real second.}
+		{\myref{G10}}
+	~\\ \\
+	\usecase{UC20}
+		{Display Recorded Situations}
+		{Valid data is stored in the database.}
+		{The data is retrieved from the databased and exported as an image representing the situation graph.}
+		{\begin{enumerate}
+			\item Retrieve Data
+			\item Display situation graph
+			\item Store Data
+		\end{enumerate}}
+		{Every situation and transition stored in the database is displayed in a file.}
+		{There is no data in the database}
+		{-}
+		{\myref{G20}}
+
+\chapter{Requirements}
+
+\section{System Functions}
+	
+	\systemfunction{SF10}
+		{Execute Simulation}
+		{-}
+		{A VUT exists in the simulation.}
+		{The simulation is run step by step}
+		{-}
+		{-}
+		{-}
+		{\myref{UC10}}
+	\\
+	\systemfunction{SF20}
+		{Receive Data}
+		{raw data of a simulated vehicle}
+		{data for all observed variables is present}
+		{The raw data of a simulated vehicle is received by the data processor}
+		{The data is temporarily stored.}
+		{-}
+		{-}
+		{\myref{UC10}}
+	\\
+	\systemfunction{SF30}
+		{Process Data}
+		{raw data of a simulated vehicle}
+		{data for all observed variables is present}
+		{The raw data of a simulated vehicle is converted into predicate logic. Hysteresis are used to prevent jumping between two states.}
+		{The data is formatted into predicate logic}
+		{-}
+		{-}
+		{\myref{UC10}}
+	\\
+	\systemfunction{SF40}
+		{Detect Situation Changes}
+		{data formatted into predicate logic, current situation}
+		{data for all observed variables is present}
+		{The observed data is compared to the data in the current situation. If a difference is detected a transition between the situations is created.}
+		{If the situations differ a transition is temporarily stored in the processing unit and the new situation is stored as the current situation.}
+		{If no current situation is available no comparison is done.
+		If both situations are stable no comparison is done.}
+		{-}
+		{\myref{UC10}}
+	\\
+	\systemfunction{SF50}
+		{Store Data}
+		{data formatted into predicate logic}
+		{difference to current situation was found or no current situation  is present}
+		{The situations and transition are translated to the database format and stored in the database.}
+		{The data is stored in the database}
+		{-}
+		{-}
+		{\myref{UC10}, \myref{UC20}}
+	\\
+	\systemfunction{SF60}
+		{Display Data}
+		{set of situations and transitions}
+		{for each transition the preceding and succeeding situation is given}
+		{The data is transformed into a visual directed graph with situations as nodes and transitions as edges.}
+		{A human readable graph is created.}
+		{The set of situations and transitions is empty.}
+		{-}
+		{\myref{UC20}}
+	\\
+	\systemfunction{SF70}
+		{Retrieve Data}
+		{-}
+		{data is present}
+		{The data corresponding to the ID is retrieved from the database and converted to the system format.}
+		{A situation tree is restored in the work format.}
+		{-}
+		{-}
+		{\myref{UC20}}
+
+\section{Nonfunctional Requirements}
+	
+	\nfr{NFR10}
+		{Simulation Speed}
+		{The simulated speed should never fall below 1 simulated second per real second.}
+
+\section{Inverse Requirements}
+	
+	There are no inverse requirements for the system.
+
+\section{Design Decisions}
+
+	\begin{tabu}{|X[-1,m]|X[l,m]|}
+		\hline
+		\rowfont[l]{\bfseries} ID & Description\\ \hline
+		DD10 & SQLite Database should be integrated. The solution should foresee a change to another database, i.e. Neo4j instead of SQLite.\\ \hline
+		DD20 & Since a framework to run simulations and retrieve data is already available for PTV Vissim, PTV Vissim is used as the simulator.\\ \hline
+		DD30 & Since the COM-Interface and the existing framework is written in Visual C++ the system will also be written in Visual C++, using the the C++14 standard.\\ \hline
+		DD40 & For the visualization of the graph Graphviz is used since it has a C/C++ library that already handles most of the structure, layout and memory management. Additionally the form of the nodes and edges can easily be adapted to different use cases.\\ \hline
+	\end{tabu}
+
+\chapter{Traceability}
+	
+	\begin{tabu}{|X[-1,m]|X[-1,m]|X[-1,m]|}
+		\hline
+		\rowfont[l]{\bfseries} Goal & Use Case & System Function\\ \hline
+		\multirow{5}{*}{\myref{G10}} 	& \multirow{5}{*}{\myref{UC10}}	& \myref{SF10}\\
+								& 						& \myref{SF20}\\
+								&						& \myref{SF30}\\
+								&						& \myref{SF40}\\
+								&						&\myref{SF50}\\ \hline
+		\multirow{3}{*}{\myref{G20}}	& \multirow{3}{*}{\myref{UC20}}	& \myref{SF50}\\
+								& 						& \myref{SF60}\\
+								&						& \myref{SF70}\\ \hline
+	\end{tabu}
+
+% add other chapters and sections to suit
+\end{document}
